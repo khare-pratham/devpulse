@@ -65,12 +65,7 @@ Then visit `http://localhost:8000`.
 
 ## Screenshots
 
-Add screenshots captured from your running application. Suggested paths: `docs/screenshots/desktop.png` and `docs/screenshots/mobile.png`.
-After uploading a screenshot, embed it with Markdown, for example:
-
-```markdown
-![Desktop dashboard](docs/screenshots/desktop.png)
-```
+![Devpulse dashboard](devpulse-dashboard.png)
 
 ## Project status
 
