@@ -2,71 +2,81 @@
 
 > Explore public GitHub profile and repository data through a responsive analytics dashboard.
 
-**Live demo:** [https://khare-pratham.github.io/devpulse/](https://khare-pratham.github.io/devpulse/)
+**Live demo:** https://khare-pratham.github.io/devpulse/
 
 ## Overview
 
-DevPulse retrieves public profile and repository information from the GitHub REST API. It summarises public repositories, followers, stars and forks, displays a language distribution estimate, and lists repositories ordered by star count.
+DevPulse is a static browser app that uses GitHub's public REST API to show profile details, public repository totals, stars, forks, language distribution estimates and top repositories. It needs no API token or backend.
 
 ## Features
 
-- Search by public GitHub username
-- Display profile name, avatar, bio, location and public profile link when available
-- Summarise public repository count, followers, stars and forks
-- List top repositories by stars with links to GitHub
-- Show language distribution estimated from repository size metadata
-- Handle invalid usernames, network errors and common API failures
-- Responsive desktop and mobile layout
+- Search public GitHub usernames with client-side validation.
+- Loading feedback and clear messages for missing users, rate limits, server failures, network failures, slow responses and invalid API responses.
+- Profile metrics, language distribution estimate and top repositories.
+- Safe text rendering and validated external links.
+- Warning when the public API response does not include all of a profile's public repositories.
+- Responsive dark interface, keyboard focus styles and reduced-motion support.
 
 ## Tech stack
 
-`HTML5` · `CSS3` · `Vanilla JavaScript` · `GitHub REST API` · `Fetch API`
+`HTML5` · `CSS3` · `Vanilla JavaScript` · `GitHub REST API` · `Node.js built-in test runner` · `GitHub Actions`
 
-## How it works
+## How metrics work
 
-The app runs in the browser and uses fetch to call GitHub's public user and repository endpoints. JavaScript combines profile and repository data, calculates summary metrics, estimates language distribution from repository size metadata, and renders the dashboard. No API token or backend is included.
+- Public repository count comes from the GitHub user profile.
+- Stars and forks are summed from repositories returned by the API request.
+- Language distribution is estimated by summing each returned repository's size metadata by its primary language. It is not a line-of-code breakdown.
+- The top eight repositories are sorted by star count.
+- The public API request fetches up to 100 repositories. For larger accounts, totals based on fetched repositories may be incomplete; the UI warns about this.
 
 ## Run locally
 
-1. Clone or download this repository.
-2. Open `index.html` in a browser.
-
-If local-file restrictions interfere, run this from the project folder:
+Open `index.html` in a browser. If browser restrictions interfere, run a local server from this directory:
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then visit `http://localhost:8000`.
+Then open http://localhost:8000.
+
+## Run automated tests
+
+Requires Node.js 18 or later; the GitHub Actions workflow uses Node.js 22.
+
+```bash
+node --check devpulse-core.js
+node --test tests/devpulse-core.test.cjs
+```
 
 ## Test checklist
 
-- [ ] Search for an existing public username and verify profile details load
-- [ ] Compare repository count, followers, stars and forks with public GitHub data
-- [ ] Open a repository link and confirm it points to the correct repository
-- [ ] Search for a non-existent username and confirm a clear error appears
-- [ ] Test API rate-limit and network-error messaging
-- [ ] Test a profile with missing bio or language metadata
+- [ ] Search for a valid public username.
+- [ ] Search for a missing username and verify a clear error.
+- [ ] Test an invalid username without sending a request.
+- [ ] Confirm API rate-limit and network errors are communicated.
+- [ ] Verify repository counts, stars and forks against the loaded repository list.
+- [ ] Test profiles with no bio or language metadata.
+- [ ] Confirm incomplete repository data is disclosed.
+- [ ] Check keyboard navigation and a narrow mobile viewport.
 
 ## Known limitations
 
-- Unauthenticated GitHub API rate limits apply
-- Up to 100 repositories are fetched; larger accounts may be incomplete
-- Language distribution is an estimate based on repository size metadata, not exact lines of code
-- No pagination, caching, historical contribution trends or commit-frequency analysis yet
-- Public profile data only; no private repository access
+- Unauthenticated GitHub API rate limits apply.
+- Only the first 100 updated repositories are loaded; no pagination yet.
+- Language distribution uses repository size metadata, not exact lines of code.
+- Only public data is accessible; private repositories are not supported.
+- No historical activity chart, persistent cache or server-side proxy.
 
 ## Potential improvements
 
-- Add pagination and clear handling of incomplete repository lists
-- Add automated tests for API parsing and metrics
-- Improve accessibility for loading, errors and charts
-- Add caching to reduce repeat API calls
+- Add pagination and request caching.
+- Add browser-level tests for loading, error and rendering states.
+- Add a small accessibility audit and cross-browser test matrix.
 
-## Screenshots
+## Screenshot
 
-![Devpulse dashboard](devpulse-dashboard.png)
+![DevPulse dashboard](devpulse-dashboard.png)
 
 ## Project status
 
-Portfolio prototype. This README distinguishes implemented features from potential future improvements.
+Portfolio project. Implemented features and known limitations are documented separately from proposed improvements.
