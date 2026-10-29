@@ -1,5 +1,7 @@
 # DevPulse — GitHub Analytics Dashboard
 
+[![DevPulse Tests](https://github.com/khare-pratham/devpulse/actions/workflows/devpulse-tests.yml/badge.svg)](https://github.com/khare-pratham/devpulse/actions/workflows/devpulse-tests.yml) [![Live demo](https://img.shields.io/badge/demo-live-147d6f)](https://khare-pratham.github.io/devpulse/)
+
 > Explore public GitHub profile and repository data through a responsive analytics dashboard.
 
 **Live demo:** https://khare-pratham.github.io/devpulse/
@@ -56,9 +58,9 @@ node tests/devpulse-e2e.mjs
 - [x] Browser test: reject an invalid username before sending a request.
 - [x] Browser test: verify API rate-limit messaging.
 - [x] Browser test: verify repository counts, stars and forks against mocked API data.
-- [ ] Test profiles with no bio or language metadata.
+- [ ] Manual follow-up: test profiles with no bio or language metadata.
 - [x] Browser test: disclose incomplete data when results hit the 100-repository cap.
-- [ ] Check keyboard navigation and a narrow mobile viewport.
+- [ ] Manual follow-up: check keyboard navigation and a narrow mobile viewport.
 
 ## Known limitations
 
@@ -71,7 +73,7 @@ node tests/devpulse-e2e.mjs
 ## Potential improvements
 
 - Add pagination and request caching.
-- Add browser-level tests for loading, error and rendering states.
+- Extend browser coverage for profiles with missing bio or language metadata.
 - Add a small accessibility audit and cross-browser test matrix.
 
 ## Screenshot
