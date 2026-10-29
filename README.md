@@ -19,7 +19,7 @@ DevPulse is a static browser app that uses GitHub's public REST API to show prof
 
 ## Tech stack
 
-`HTML5` · `CSS3` · `Vanilla JavaScript` · `GitHub REST API` · `Node.js built-in test runner` · `GitHub Actions`
+`HTML5` · `CSS3` · `Vanilla JavaScript` · `GitHub REST API` · `Node.js test runner` · `Playwright` · `GitHub Actions`
 
 ## How metrics work
 
@@ -46,17 +46,18 @@ Requires Node.js 18 or later; the GitHub Actions workflow uses Node.js 22.
 ```bash
 node --check devpulse-core.js
 node --test tests/devpulse-core.test.cjs
+node tests/devpulse-e2e.mjs
 ```
 
 ## Test checklist
 
-- [ ] Search for a valid public username.
-- [ ] Search for a missing username and verify a clear error.
-- [ ] Test an invalid username without sending a request.
-- [ ] Confirm API rate-limit and network errors are communicated.
-- [ ] Verify repository counts, stars and forks against the loaded repository list.
+- [x] Browser test: search for a valid username and verify profile metrics and repository links.
+- [x] Browser test: search for a missing username and verify a clear error.
+- [x] Browser test: reject an invalid username before sending a request.
+- [x] Browser test: verify API rate-limit messaging.
+- [x] Browser test: verify repository counts, stars and forks against mocked API data.
 - [ ] Test profiles with no bio or language metadata.
-- [ ] Confirm incomplete repository data is disclosed.
+- [x] Browser test: disclose incomplete data when results hit the 100-repository cap.
 - [ ] Check keyboard navigation and a narrow mobile viewport.
 
 ## Known limitations
