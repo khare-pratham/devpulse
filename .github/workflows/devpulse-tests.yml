@@ -1,4 +1,4 @@
-name: DevPulse Core Tests
+name: DevPulse Tests
 
 on:
   push:
@@ -9,19 +9,36 @@ on:
 
 permissions:
   contents: read
-  
+
 jobs:
   test:
-    name: Run automated tests
-    runs-on: ubuntu-latest
+    name: Core and browser tests
+    runs-on: ubuntu-24.04
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
       - name: Check core JavaScript syntax
         run: node --check devpulse-core.js
       - name: Run core tests
         run: node --test tests/devpulse-core.test.cjs
+      - name: Install Playwright
+        run: npm install --no-save playwright
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Start static web server
+        run: |
+          python3 -m http.server 8000 > /tmp/devpulse-http.log 2>&1 &
+          for attempt in $(seq 1 20); do
+            if curl --fail --silent http://127.0.0.1:8000/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/devpulse-http.log
+          exit 1
+      - name: Run browser end-to-end tests
+        run: node tests/devpulse-e2e.mjs
