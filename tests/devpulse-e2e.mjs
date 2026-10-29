@@ -52,7 +52,7 @@ async function main() {
     assert.equal(await page.locator("#starsCount").textContent(), "8");
     assert.equal(await page.locator("#forksCount").textContent(), "3");
     await page.getByRole("link", { name: "alpha" }).waitFor();
-    await page.getByText("JavaScript").waitFor();
+    await page.locator("#languageList").getByText("JavaScript").waitFor();
     console.log("PASS: profile metrics, language summary and repository links render");
 
     userStatus = 404;
