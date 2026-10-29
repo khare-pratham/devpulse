@@ -63,10 +63,11 @@ async function main() {
 
     userStatus = 200;
     reposStatus = 200;
+    user.public_repos = 120;
     repoPayload = Array.from({ length: 100 }, (_, index) => ({ ...repos[0], name: `repo-${index}`, html_url: `https://github.com/test-user/repo-${index}` }));
     await page.getByRole("button", { name: /Analyse profile/ }).click();
     await page.getByText(/capped at 100 repositories/i).waitFor();
-    await page.getByText(/Showing 100 repositories out of 2 public repositories/i).waitFor();
+    await page.getByText(/Showing 100 repositories out of 120 public repositories/i).waitFor();
     console.log("PASS: incomplete repository data is disclosed");
 
     reposStatus = 403;
